@@ -24,22 +24,35 @@ mongoose.connect(MONGODB_URI)
 const allowedOrigins = [
     'https://frontend-blog-j6vih5v6d-mayorwise001s-projects.vercel.app',
     'http://localhost:3002'
+    
   ];
   
   const corsOptions = {
     origin: function (origin, callback) {
       // Allow requests with no origin, like mobile apps or curl requests
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'The CORS policy for this site does not allow access from the specified origin.';
-        return callback(new Error(msg), false);
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        // Allow specific origins
+        return callback(null, true);
+      } else {
+        // Allow all other origins without credentials
+        return callback(null, true);
       }
-      return callback(null, true);
     },
-    credentials: true
+    credentials: function (origin, callback) {
+      // Allow credentials for specific origins only
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      } else {
+        return callback(null, false);
+      }
+    }
   };
   
-  app.use(cors(corsOptions));
+  app.use((req, res, next) => {
+    cors(corsOptions)(req, res, next);
+  });
 
 
      
