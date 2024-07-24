@@ -22,7 +22,7 @@ mongoose.connect(MONGODB_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 const allowedOrigins = [
-  'https://frontend-blog-jdsdwqhqy-mayorwise001s-projects.vercel.app',
+  'https://frontend-blog-lncwvwpbq-mayorwise001s-projects.vercel.app/',
   'http://localhost:3002'
 ];
 
