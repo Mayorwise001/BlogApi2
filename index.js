@@ -21,10 +21,25 @@ const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
-app.use(cors({
-    origin: '*',
-    credentials: true
-  }));
+const allowedOrigins = [
+  'https://frontend-blog-i3u9k4k8i-mayorwise001s-projects.vercel.app',
+  'http://localhost:3002'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 
      
