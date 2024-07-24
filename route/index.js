@@ -215,6 +215,30 @@ router.get('/published-jobs', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+router.get('/published-jobs2', async (req, res) => {
+    try {
+        // Find all published job postings
+        const jobs = await Job.find({ published: true })
+            .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
+            .populate('postedBy', 'username') // Populate the postedBy field with the username
+            .exec();
+
+        // Format job descriptions to be brief
+        const formattedJobs = jobs.map(job => ({
+            jobTitle: job.jobTitle,
+            jobDescription: job.jobDescription.length > 100 ? `${job.jobDescription.substring(0, 100)}...` : job.jobDescription,
+            postedBy: job.postedBy,
+            deadline: job.deadline,
+            jobid: job._id,
+            category: job.category
+        }));
+
+        res.status(200).json(formattedJobs);
+    } catch (err) {
+        console.error('Error fetching published jobs:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 // Display unpublished Jobs.
 
