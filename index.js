@@ -21,38 +21,10 @@ const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
-const allowedOrigins = [
-    'https://frontend-blog-j6vih5v6d-mayorwise001s-projects.vercel.app',
-    'http://localhost:3002'
-    
-  ];
-  
-  const corsOptions = {
-    origin: function (origin, callback) {
-      // Allow requests with no origin, like mobile apps or curl requests
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        // Allow specific origins
-        return callback(null, true);
-      } else {
-        // Allow all other origins without credentials
-        return callback(null, true);
-      }
-    },
-    credentials: function (origin, callback) {
-      // Allow credentials for specific origins only
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        return callback(null, true);
-      } else {
-        return callback(null, false);
-      }
-    }
-  };
-  
-  app.use((req, res, next) => {
-    cors(corsOptions)(req, res, next);
-  });
+app.use(cors({
+    origin: '*',
+    credentials: true
+  }));
 
 
      
