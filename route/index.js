@@ -215,6 +215,7 @@ router.get('/published-jobs', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
 router.get('/published-jobs2', async (req, res) => {
     try {
         // Find all published job postings
@@ -273,6 +274,26 @@ router.post('/publish-job/:id', verifyToken, async (req, res) => {
 
 
 router.get('/job-details/:id',verifyToken, async (req, res) => {
+    try {
+        const jobId = req.params.id;
+
+        // Validate the job ID
+        if (!mongoose.Types.ObjectId.isValid(jobId)) {
+            return res.status(400).json({ error: 'Invalid Job ID' });
+        }
+
+        const job = await Job.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ error: 'Job not found' });
+        }
+        res.json(job);
+    } catch (error) {
+        console.error('Error fetching job details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.get('/job-details2/:id', async (req, res) => {
     try {
         const jobId = req.params.id;
 
