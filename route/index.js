@@ -79,6 +79,58 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// Register Users here
+
+router.post('/register2', async (req, res) => {
+    const { username, email, password } = req.body;
+  
+    // Validate input
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+  
+    try {
+      // Check if the user already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ error: 'User already exists' });
+      }
+  
+      // Create a new user
+      const newUser = new User({
+        username,
+        email,
+        password,
+      });
+  
+      // Save the user to the database
+      await newUser.save();
+  
+      // Generate a JWT token
+      const token = jwt.sign(
+        { userId: newUser._id, username: newUser.username },
+        process.env.secretKey,
+        { expiresIn: '1h' }
+      );
+  
+      res.status(201).json({ token, user: { id: newUser._id, username: newUser.username, email: newUser.email } });
+    } catch (error) {
+      console.error('Error registering user:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
 // Code to login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', async(err, user, info) => {

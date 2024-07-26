@@ -25,7 +25,8 @@ const allowedOrigins = [
   'https://frontend-blog-lncwvwpbq-mayorwise001s-projects.vercel.app',
   'http://localhost:3002',
   'http://localhost:3000',
-  'https://frontend-blog-api-users-n4i9opdlq-mayorwise001s-projects.vercel.app'
+  'https://frontend-blog-api-users-n4i9opdlq-mayorwise001s-projects.vercel.app',
+  'https://frontend-blog-api-users.vercel.app'
 ];
 
 const corsOptions = {
