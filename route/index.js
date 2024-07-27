@@ -238,7 +238,7 @@ router.get('/published-jobs', verifyToken, async (req, res) => {
     try {
         // Find all published job postings
         const jobs = await Job.find({ published: true })
-            .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
+            .select('jobTitle jobDescription deadline postedBy category') // Select only the necessary fields
             .populate('postedBy', 'username') // Populate the postedBy field with the username
 
             .exec();
@@ -264,7 +264,7 @@ router.get('/published-jobs2', async (req, res) => {
     try {
         // Find all published job postings
         const jobs = await Job.find({ published: true })
-            .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
+            .select('jobTitle jobDescription deadline postedBy category') // Select only the necessary fields
             .populate('postedBy', 'username') // Populate the postedBy field with the username
             .exec();
 
