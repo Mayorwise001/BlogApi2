@@ -509,6 +509,15 @@ router.get('/all-categories', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+router.get('/all-categories2', async (req, res) => {
+    try {
+        const categories = await Category.find({});
+        res.status(200).json(categories);
+    } catch (err) {
+        console.error('Error fetching categories:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 
 
