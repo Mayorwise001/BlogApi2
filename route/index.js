@@ -283,7 +283,7 @@ router.get('/published-jobs2', async (req, res) => {
             postedBy: job.postedBy,
             deadline: job.deadline,
             jobid: job._id,
-            category: job.category
+            category: job.category.name
         }));
 
         res.status(200).json(formattedJobs);
