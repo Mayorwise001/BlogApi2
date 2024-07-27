@@ -249,6 +249,7 @@ router.get('/published-jobs', verifyToken, async (req, res) => {
         const jobs = await Job.find({ published: true })
             .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
             .populate('postedBy', 'username') // Populate the postedBy field with the username
+            .populate('category', 'name') 
             .exec();
 
         // Format job descriptions to be brief
@@ -274,6 +275,7 @@ router.get('/published-jobs2', async (req, res) => {
         const jobs = await Job.find({ published: true })
             .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
             .populate('postedBy', 'username') // Populate the postedBy field with the username
+            .populate('category', 'name') 
             .exec();
 
         // Format job descriptions to be brief

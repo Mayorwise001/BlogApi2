@@ -7,7 +7,8 @@ const JobSchema = new mongoose.Schema({
     deadline: { type: Date, required: true },
     postedBy: { type: String, required: true },
     published: { type: Boolean, default: false },
-    category: { type: String, required: true },
+    // category: { type: String, required: true },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     createdDate: { type: Date, default: Date.now }
 });
 
