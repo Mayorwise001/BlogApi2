@@ -122,15 +122,6 @@ router.post('/register2', async (req, res) => {
   
 
 
-
-
-
-
-
-
-
-
-
 // Code to login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', async(err, user, info) => {
@@ -249,7 +240,7 @@ router.get('/published-jobs', verifyToken, async (req, res) => {
         const jobs = await Job.find({ published: true })
             .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
             .populate('postedBy', 'username') // Populate the postedBy field with the username
-            .populate('category', 'name') 
+
             .exec();
 
         // Format job descriptions to be brief
@@ -275,7 +266,6 @@ router.get('/published-jobs2', async (req, res) => {
         const jobs = await Job.find({ published: true })
             .select('jobTitle jobDescription deadline postedBy') // Select only the necessary fields
             .populate('postedBy', 'username') // Populate the postedBy field with the username
-            .populate('category', 'name') 
             .exec();
 
         // Format job descriptions to be brief
@@ -285,7 +275,7 @@ router.get('/published-jobs2', async (req, res) => {
             postedBy: job.postedBy,
             deadline: job.deadline,
             jobid: job._id,
-            category: job.category.name
+            category: job.category
         }));
 
         res.status(200).json(formattedJobs);
